@@ -6,18 +6,22 @@ import com.finsight.backend.entity.User;
 import com.finsight.backend.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.finsight.backend.security.JwtUtil;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+                       PasswordEncoder passwordEncoder,
+                       JwtUtil jwtUtil) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public String registerUser(RegisterRequest request) {
@@ -62,6 +66,7 @@ public class UserService {
         return "Invalid Password";
     }
 
-    return "Login Successful";
+    String token = jwtUtil.generateToken(user.getEmail());
+    return token;
 }
 }
