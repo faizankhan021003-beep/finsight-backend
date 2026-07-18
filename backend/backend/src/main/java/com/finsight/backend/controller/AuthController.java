@@ -2,6 +2,7 @@ package com.finsight.backend.controller;
 
 import com.finsight.backend.dto.LoginRequest;
 import com.finsight.backend.dto.RegisterRequest;
+import com.finsight.backend.service.AuthService;
 import com.finsight.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,19 +11,22 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
+    private final AuthService authService;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService,
+                          AuthService authService) {
+
         this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping("/register")
     public String registerUser(@RequestBody RegisterRequest request) {
         return userService.registerUser(request);
     }
-    @PostMapping("/login")
-public String loginUser(
-        @RequestBody LoginRequest request) {
 
-    return userService.loginUser(request);
-}
+    @PostMapping("/login")
+    public String loginUser(@RequestBody LoginRequest request) {
+        return authService.login(request);
+    }
 }
