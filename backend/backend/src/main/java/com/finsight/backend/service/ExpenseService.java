@@ -2,38 +2,60 @@ package com.finsight.backend.service;
 
 import com.finsight.backend.dto.ExpenseRequest;
 import com.finsight.backend.entity.Expense;
+import com.finsight.backend.entity.User;
 import com.finsight.backend.repository.ExpenseRepository;
+import com.finsight.backend.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final UserRepository userRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository) {
+    public ExpenseService(ExpenseRepository expenseRepository,
+                          UserRepository userRepository) {
+
         this.expenseRepository = expenseRepository;
+        this.userRepository = userRepository;
     }
 
-    public String addExpense(ExpenseRequest request) {
+    public String addExpense(ExpenseRequest request,
+                             Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
 
         Expense expense = new Expense();
 
         expense.setTitle(request.getTitle());
         expense.setAmount(request.getAmount());
         expense.setCategory(request.getCategory());
+        expense.setDate(request.getDate());
+        expense.setDescription(request.getDescription());
 
-        // Automatically save today's date
-        expense.setDate(LocalDate.now());
+        expense.setUser(user);
 
         expenseRepository.save(expense);
 
         return "Expense added successfully";
     }
 
-    public List<Expense> getAllExpenses() {
-        return expenseRepository.findAll();
+    public List<Expense> getMyExpenses(
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        return expenseRepository.findByUser(user);
     }
 }
