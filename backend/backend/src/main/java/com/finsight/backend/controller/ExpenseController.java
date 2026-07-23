@@ -32,4 +32,19 @@ public class ExpenseController {
 
         return expenseService.getMyExpenses(authentication);
     }
+    // Update an existing expense
+    @PutMapping("/{id}")
+    public String updateExpense(@PathVariable Long id,
+                            @RequestBody ExpenseRequest request,
+                            Authentication authentication) {
+
+    return expenseService.updateExpense(id, request, authentication);
+    }
+    // Delete an expense
+    @DeleteMapping("/{id}")
+    public String deleteExpense(@PathVariable Long id,
+                            Authentication authentication) {
+
+    return expenseService.deleteExpense(id, authentication);
+    }
 }

@@ -58,4 +58,47 @@ public class ExpenseService {
 
         return expenseRepository.findByUser(user);
     }
+    public String updateExpense(Long expenseId,
+                            ExpenseRequest request,
+                            Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    Expense expense = expenseRepository
+            .findByIdAndUser(expenseId, user)
+            .orElseThrow(() ->
+                    new RuntimeException("Expense not found"));
+
+    expense.setTitle(request.getTitle());
+    expense.setAmount(request.getAmount());
+    expense.setCategory(request.getCategory());
+    expense.setDate(request.getDate());
+    expense.setDescription(request.getDescription());
+
+    expenseRepository.save(expense);
+
+    return "Expense updated successfully";
+    }
+    public String deleteExpense(Long expenseId,
+                            Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    Expense expense = expenseRepository
+            .findByIdAndUser(expenseId, user)
+            .orElseThrow(() ->
+                    new RuntimeException("Expense not found"));
+
+    expenseRepository.delete(expense);
+
+    return "Expense deleted successfully";
+    }
 }
