@@ -5,8 +5,10 @@ import com.finsight.backend.entity.Expense;
 import com.finsight.backend.entity.User;
 import com.finsight.backend.repository.ExpenseRepository;
 import com.finsight.backend.repository.UserRepository;
+import com.finsight.backend.dto.ExpenseSummaryResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -100,5 +102,27 @@ public class ExpenseService {
     expenseRepository.delete(expense);
 
     return "Expense deleted successfully";
+    }
+    public ExpenseSummaryResponse getExpenseSummary(
+        Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    Double totalExpenses = expenseRepository.sumAmountByUser(user);
+
+    Long totalTransactions = expenseRepository.countByUser(user);
+
+    if (totalExpenses == null) {
+        totalExpenses = 0.0;
+    }
+
+    return new ExpenseSummaryResponse(
+            totalExpenses,
+            totalTransactions
+    );
     }
 }
