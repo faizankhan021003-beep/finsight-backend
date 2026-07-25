@@ -6,6 +6,7 @@ import com.finsight.backend.service.ExpenseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
+import com.finsight.backend.dto.CategoryExpenseResponse;
 
 import java.util.List;
 
@@ -39,6 +40,13 @@ public class ExpenseController {
         Authentication authentication) {
 
     return expenseService.getExpenseSummary(authentication);
+    }
+    // Get category-wise expense summary
+    @GetMapping("/category-summary")
+    public List<CategoryExpenseResponse> getCategoryWiseExpenses(
+        Authentication authentication) {
+
+    return expenseService.getCategoryWiseExpenses(authentication);
     }
     // Update an existing expense
     @PutMapping("/{id}")

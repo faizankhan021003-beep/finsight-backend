@@ -6,6 +6,7 @@ import com.finsight.backend.entity.User;
 import com.finsight.backend.repository.ExpenseRepository;
 import com.finsight.backend.repository.UserRepository;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
+import com.finsight.backend.dto.CategoryExpenseResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -124,5 +125,16 @@ public class ExpenseService {
             totalExpenses,
             totalTransactions
     );
+    }
+    public List<CategoryExpenseResponse> getCategoryWiseExpenses(
+        Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    return expenseRepository.getCategoryWiseExpenses(user);
     }
 }
