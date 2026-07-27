@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 @Service
 public class ExpenseService {
@@ -162,5 +163,23 @@ public class ExpenseService {
     }
 
     return response;
+    }
+
+    public List<Expense> getExpensesByDateRange(
+        Authentication authentication,
+        LocalDate startDate,
+        LocalDate endDate) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    return expenseRepository.findByUserAndDateBetween(
+            user,
+            startDate,
+            endDate
+    );
     }
 }

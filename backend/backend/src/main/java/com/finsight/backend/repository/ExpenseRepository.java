@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
@@ -48,4 +49,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     ORDER BY DATE_FORMAT(date,'%Y-%m')
     """, nativeQuery = true)
     List<Object[]> getMonthlyExpenses(@Param("user") User user);
+    
+    List<Expense> findByUserAndDateBetween(
+        User user,
+        LocalDate startDate,
+        LocalDate endDate);
 }

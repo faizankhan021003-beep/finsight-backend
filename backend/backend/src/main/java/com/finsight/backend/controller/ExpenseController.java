@@ -10,6 +10,7 @@ import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
 
 import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -71,5 +72,18 @@ public class ExpenseController {
         Authentication authentication) {
 
     return expenseService.getMonthlyExpenses(authentication);
+    }
+
+    @GetMapping("/filter")
+    public List<Expense> getExpensesByDateRange(
+        Authentication authentication,
+        @RequestParam LocalDate startDate,
+        @RequestParam LocalDate endDate) {
+
+    return expenseService.getExpensesByDateRange(
+            authentication,
+            startDate,
+            endDate
+    );
     }
 }
