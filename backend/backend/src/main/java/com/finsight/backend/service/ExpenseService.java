@@ -7,11 +7,13 @@ import com.finsight.backend.repository.ExpenseRepository;
 import com.finsight.backend.repository.UserRepository;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
+import com.finsight.backend.dto.MonthlyExpenseResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class ExpenseService {
@@ -136,5 +138,29 @@ public class ExpenseService {
                     new RuntimeException("User not found"));
 
     return expenseRepository.getCategoryWiseExpenses(user);
+    }
+
+    public List<MonthlyExpenseResponse> getMonthlyExpenses(
+        Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    List<Object[]> results = expenseRepository.getMonthlyExpenses(user);
+
+    List<MonthlyExpenseResponse> response = new ArrayList<>();
+
+    for (Object[] row : results) {
+
+        String month = (String) row[0];
+        Double totalAmount = ((Number) row[1]).doubleValue();
+
+        response.add(new MonthlyExpenseResponse(month, totalAmount));
+    }
+
+    return response;
     }
 }

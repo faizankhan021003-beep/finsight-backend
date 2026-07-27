@@ -3,6 +3,7 @@ package com.finsight.backend.repository;
 import com.finsight.backend.entity.Expense;
 import com.finsight.backend.entity.User;
 import com.finsight.backend.dto.CategoryExpenseResponse;
+import com.finsight.backend.dto.MonthlyExpenseResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,4 +37,15 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     """)
     List<CategoryExpenseResponse> getCategoryWiseExpenses(
         @Param("user") User user);
+
+    @Query(value = """
+    SELECT
+    DATE_FORMAT(date,'%Y-%m') AS month,
+    SUM(amount) AS totalAmount
+    FROM expenses
+    WHERE user_id = :#{#user.id}
+    GROUP BY DATE_FORMAT(date,'%Y-%m')
+    ORDER BY DATE_FORMAT(date,'%Y-%m')
+    """, nativeQuery = true)
+    List<Object[]> getMonthlyExpenses(@Param("user") User user);
 }

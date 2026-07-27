@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
+import com.finsight.backend.dto.MonthlyExpenseResponse;
 
 import java.util.List;
 
@@ -62,5 +63,13 @@ public class ExpenseController {
                             Authentication authentication) {
 
     return expenseService.deleteExpense(id, authentication);
+    }
+
+    // Get monthly expense summary
+    @GetMapping("/monthly-summary")
+    public List<MonthlyExpenseResponse> getMonthlyExpenses(
+        Authentication authentication) {
+
+    return expenseService.getMonthlyExpenses(authentication);
     }
 }
