@@ -9,9 +9,10 @@ import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
 import com.finsight.backend.dto.ExpenseResponse;
+import com.finsight.backend.exception.ResourceNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ExpenseService {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new ResourceNotFoundException("User not found"));
 
         Expense expense = new Expense();
 
@@ -61,7 +62,7 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     return expenseRepository.findByUser(user)
             .stream()
@@ -76,12 +77,12 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     Expense expense = expenseRepository
             .findByIdAndUser(expenseId, user)
             .orElseThrow(() ->
-                    new RuntimeException("Expense not found"));
+                    new ResourceNotFoundException("Expense not found"));
 
     expense.setTitle(request.getTitle());
     expense.setAmount(request.getAmount());
@@ -100,12 +101,12 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     Expense expense = expenseRepository
             .findByIdAndUser(expenseId, user)
             .orElseThrow(() ->
-                    new RuntimeException("Expense not found"));
+                    new ResourceNotFoundException("Expense not found"));
 
     expenseRepository.delete(expense);
 
@@ -118,7 +119,7 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     Double totalExpenses = expenseRepository.sumAmountByUser(user);
 
@@ -140,7 +141,7 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     return expenseRepository.getCategoryWiseExpenses(user);
     }
@@ -152,7 +153,7 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     List<Object[]> results = expenseRepository.getMonthlyExpenses(user);
 
@@ -177,7 +178,7 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     return expenseRepository.findByUserAndDateBetween(
             user,
@@ -197,7 +198,7 @@ public class ExpenseService {
 
     User user = userRepository.findByEmail(email)
             .orElseThrow(() ->
-                    new RuntimeException("User not found"));
+                    new ResourceNotFoundException("User not found"));
 
     return expenseRepository
             .findByUserAndTitleContainingIgnoreCaseOrUserAndCategoryContainingIgnoreCase(
