@@ -8,6 +8,7 @@ import com.finsight.backend.repository.UserRepository;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
+import com.finsight.backend.dto.ExpenseResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -52,17 +53,20 @@ public class ExpenseService {
 
         return "Expense added successfully";
     }
+     
+    public List<ExpenseResponse> getMyExpenses(
+        Authentication authentication) {
 
-    public List<Expense> getMyExpenses(
-            Authentication authentication) {
+    String email = authentication.getName();
 
-        String email = authentication.getName();
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new RuntimeException("User not found"));
-
-        return expenseRepository.findByUser(user);
+    return expenseRepository.findByUser(user)
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
     }
     public String updateExpense(Long expenseId,
                             ExpenseRequest request,
@@ -164,8 +168,7 @@ public class ExpenseService {
 
     return response;
     }
-
-    public List<Expense> getExpensesByDateRange(
+    public List<ExpenseResponse> getExpensesByDateRange(
         Authentication authentication,
         LocalDate startDate,
         LocalDate endDate) {
@@ -180,6 +183,43 @@ public class ExpenseService {
             user,
             startDate,
             endDate
-    );
+    )
+    .stream()
+    .map(this::mapToResponse)
+    .toList();
     }
+
+    public List<ExpenseResponse> searchExpenses(
+        Authentication authentication,
+        String keyword) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    return expenseRepository
+            .findByUserAndTitleContainingIgnoreCaseOrUserAndCategoryContainingIgnoreCase(
+                    user,
+                    keyword,
+                    user,
+                    keyword
+            )
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
+    }
+
+    private ExpenseResponse mapToResponse(Expense expense) {
+
+    return new ExpenseResponse(
+            expense.getId(),
+            expense.getTitle(),
+            expense.getAmount(),
+            expense.getCategory(),
+            expense.getDate(),
+            expense.getDescription()
+    );
+    } 
 }

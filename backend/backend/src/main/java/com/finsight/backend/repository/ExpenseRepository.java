@@ -54,4 +54,10 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
         User user,
         LocalDate startDate,
         LocalDate endDate);
+
+    List<Expense> findByUserAndTitleContainingIgnoreCaseOrUserAndCategoryContainingIgnoreCase(
+    User user,
+    String title,
+    User userAgain,
+    String category);
 }

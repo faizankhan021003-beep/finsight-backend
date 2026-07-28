@@ -1,6 +1,7 @@
 package com.finsight.backend.controller;
 
 import com.finsight.backend.dto.ExpenseRequest;
+import com.finsight.backend.dto.ExpenseResponse;
 import com.finsight.backend.entity.Expense;
 import com.finsight.backend.service.ExpenseService;
 import org.springframework.security.core.Authentication;
@@ -32,9 +33,10 @@ public class ExpenseController {
 
     // Get all expenses of the logged-in user
     @GetMapping
-    public List<Expense> getMyExpenses(Authentication authentication) {
+    public List<ExpenseResponse> getMyExpenses(
+        Authentication authentication) {
 
-        return expenseService.getMyExpenses(authentication);
+    return expenseService.getMyExpenses(authentication);
     }
     // Get expense summary
     @GetMapping("/summary")
@@ -75,7 +77,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/filter")
-    public List<Expense> getExpensesByDateRange(
+    public List<ExpenseResponse> getExpensesByDateRange(
         Authentication authentication,
         @RequestParam LocalDate startDate,
         @RequestParam LocalDate endDate) {
@@ -85,5 +87,13 @@ public class ExpenseController {
             startDate,
             endDate
     );
+    }
+
+    @GetMapping("/search")
+    public List<ExpenseResponse> searchExpenses(
+        Authentication authentication,
+        @RequestParam String keyword) {
+
+    return expenseService.searchExpenses(authentication, keyword);
     }
 }
