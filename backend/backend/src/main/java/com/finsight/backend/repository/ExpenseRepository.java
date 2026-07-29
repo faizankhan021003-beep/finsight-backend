@@ -7,6 +7,8 @@ import com.finsight.backend.dto.MonthlyExpenseResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     // Get all expenses of a user
     List<Expense> findByUser(User user);
+
+    Page<Expense> findByUser(User user, Pageable pageable);
 
     // Get a specific expense belonging to a user
     Optional<Expense> findByIdAndUser(Long id, User user);

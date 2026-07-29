@@ -13,6 +13,10 @@ import com.finsight.backend.exception.ResourceNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -69,6 +73,32 @@ public class ExpenseService {
             .map(this::mapToResponse)
             .toList();
     }
+     
+    public Page<ExpenseResponse> getMyExpenses(
+        Authentication authentication,
+        int page,
+        int size,
+        String sortBy,
+        String direction) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("User not found"));
+
+    Sort sort = direction.equalsIgnoreCase("desc")
+            ? Sort.by(sortBy).descending()
+            : Sort.by(sortBy).ascending();
+
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    Page<Expense> expensePage =
+            expenseRepository.findByUser(user, pageable);
+
+    return expensePage.map(this::mapToResponse);
+    }
+   
     public String updateExpense(Long expenseId,
                             ExpenseRequest request,
                             Authentication authentication) {

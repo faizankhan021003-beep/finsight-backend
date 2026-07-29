@@ -6,6 +6,7 @@ import com.finsight.backend.entity.Expense;
 import com.finsight.backend.service.ExpenseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
@@ -37,6 +38,23 @@ public class ExpenseController {
         Authentication authentication) {
 
     return expenseService.getMyExpenses(authentication);
+    }
+
+    @GetMapping("/page")
+    public Page<ExpenseResponse> getMyExpensesWithPagination(
+        Authentication authentication,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "date") String sortBy,
+        @RequestParam(defaultValue = "desc") String direction) {
+
+    return expenseService.getMyExpenses(
+            authentication,
+            page,
+            size,
+            sortBy,
+            direction
+    );
     }
     // Get expense summary
     @GetMapping("/summary")
