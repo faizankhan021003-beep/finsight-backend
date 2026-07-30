@@ -14,6 +14,7 @@ import com.finsight.backend.dto.ExpenseStatisticsResponse;
 
 import java.util.List;
 import java.time.LocalDate;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -27,10 +28,11 @@ public class ExpenseController {
 
     // Add a new expense
     @PostMapping
-    public String addExpense(@RequestBody ExpenseRequest request,
-                             Authentication authentication) {
+    public String addExpense(
+        @Valid @RequestBody ExpenseRequest request,
+        Authentication authentication) {
 
-        return expenseService.addExpense(request, authentication);
+    return expenseService.addExpense(request, authentication);
     }
 
     // Get all expenses of the logged-in user
@@ -80,7 +82,7 @@ public class ExpenseController {
     // Update an existing expense
     @PutMapping("/{id}")
     public String updateExpense(@PathVariable Long id,
-                            @RequestBody ExpenseRequest request,
+                            @Valid @RequestBody ExpenseRequest request,
                             Authentication authentication) {
 
     return expenseService.updateExpense(id, request, authentication);

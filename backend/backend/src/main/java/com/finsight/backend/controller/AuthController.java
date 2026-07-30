@@ -5,6 +5,7 @@ import com.finsight.backend.dto.RegisterRequest;
 import com.finsight.backend.service.AuthService;
 import com.finsight.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,12 +22,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody RegisterRequest request) {
+    public String registerUser(@Valid @RequestBody RegisterRequest request) {
         return userService.registerUser(request);
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestBody LoginRequest request) {
+    public String loginUser(@Valid @RequestBody LoginRequest request) {
         return authService.login(request);
     }
 }
