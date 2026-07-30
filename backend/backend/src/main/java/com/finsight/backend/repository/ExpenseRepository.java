@@ -64,4 +64,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     String title,
     User userAgain,
     String category);
+
+    @Query("SELECT MAX(e.amount) FROM Expense e WHERE e.user = :user")
+    Double getHighestExpense(@Param("user") User user);
+
+    @Query("SELECT MIN(e.amount) FROM Expense e WHERE e.user = :user")
+    Double getLowestExpense(@Param("user") User user);
+
+    @Query("SELECT AVG(e.amount) FROM Expense e WHERE e.user = :user")
+    Double getAverageExpense(@Param("user") User user);
+
 }

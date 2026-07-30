@@ -9,6 +9,7 @@ import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
 import com.finsight.backend.dto.ExpenseResponse;
+import com.finsight.backend.dto.ExpenseStatisticsResponse;
 import com.finsight.backend.exception.ResourceNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -161,6 +162,32 @@ public class ExpenseService {
 
     return new ExpenseSummaryResponse(
             totalExpenses,
+            totalTransactions
+    );
+    }
+
+    public ExpenseStatisticsResponse getExpenseStatistics(
+        Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("User not found"));
+
+    Double highestExpense = expenseRepository.getHighestExpense(user);
+    Double lowestExpense = expenseRepository.getLowestExpense(user);
+    Double averageExpense = expenseRepository.getAverageExpense(user);
+    Long totalTransactions = expenseRepository.countByUser(user);
+
+    if (highestExpense == null) highestExpense = 0.0;
+    if (lowestExpense == null) lowestExpense = 0.0;
+    if (averageExpense == null) averageExpense = 0.0;
+
+    return new ExpenseStatisticsResponse(
+            highestExpense,
+            lowestExpense,
+            averageExpense,
             totalTransactions
     );
     }

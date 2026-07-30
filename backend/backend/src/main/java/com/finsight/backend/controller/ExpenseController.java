@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
+import com.finsight.backend.dto.ExpenseStatisticsResponse;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -62,6 +63,12 @@ public class ExpenseController {
         Authentication authentication) {
 
     return expenseService.getExpenseSummary(authentication);
+    }
+    @GetMapping("/statistics")
+    public ExpenseStatisticsResponse getExpenseStatistics(
+        Authentication authentication) {
+
+    return expenseService.getExpenseStatistics(authentication);
     }
     // Get category-wise expense summary
     @GetMapping("/category-summary")
