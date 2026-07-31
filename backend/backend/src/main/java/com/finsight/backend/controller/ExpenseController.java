@@ -11,6 +11,8 @@ import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
 import com.finsight.backend.dto.ExpenseStatisticsResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 import java.time.LocalDate;
@@ -18,6 +20,8 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/expenses")
+@Tag(name = "Expense APIs", description = "Manage user expenses")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ExpenseController {
 
     private final ExpenseService expenseService;
