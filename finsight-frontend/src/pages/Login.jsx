@@ -1,9 +1,24 @@
 import { useState } from "react";
 import "../styles/Login.css";
+import api from "../services/api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const handleLogin = async () => {
+  try {
+    const response = await api.post("/auth/login", {
+      email: email,
+      password: password,
+    });
+
+    localStorage.setItem("token", response.data);
+    alert("Login Successful!");
+
+  } catch (error) {
+    console.log(error.response.data);
+  }
+  };
 
   return (
     <div className="login-container">
@@ -23,7 +38,7 @@ function Login() {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={() => console.log(email, password)}>
+      <button onClick={handleLogin}>
         Login
       </button>
     </div>
