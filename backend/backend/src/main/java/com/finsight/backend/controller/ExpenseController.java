@@ -2,7 +2,6 @@ package com.finsight.backend.controller;
 
 import com.finsight.backend.dto.ExpenseRequest;
 import com.finsight.backend.dto.ExpenseResponse;
-import com.finsight.backend.entity.Expense;
 import com.finsight.backend.service.ExpenseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,13 @@ import com.finsight.backend.dto.ExpenseSummaryResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
 import com.finsight.backend.dto.ExpenseStatisticsResponse;
+import com.finsight.backend.dto.SuccessResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 
 import java.util.List;
 import java.time.LocalDate;
@@ -44,7 +45,7 @@ public class ExpenseController {
     })
     // Add a new expense
     @PostMapping
-    public String addExpense(
+    public SuccessResponse addExpense(
         @Valid @RequestBody ExpenseRequest request,
         Authentication authentication) {
 
@@ -129,7 +130,7 @@ public class ExpenseController {
     })
     // Update an existing expense
     @PutMapping("/{id}")
-    public String updateExpense(@PathVariable Long id,
+    public SuccessResponse updateExpense(@PathVariable Long id,
                             @Valid @RequestBody ExpenseRequest request,
                             Authentication authentication) {
 
@@ -146,7 +147,7 @@ public class ExpenseController {
     })
     // Delete an expense
     @DeleteMapping("/{id}")
-    public String deleteExpense(@PathVariable Long id,
+    public SuccessResponse deleteExpense(@PathVariable Long id,
                             Authentication authentication) {
 
     return expenseService.deleteExpense(id, authentication);

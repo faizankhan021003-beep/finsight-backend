@@ -6,6 +6,7 @@ import com.finsight.backend.entity.User;
 import com.finsight.backend.repository.ExpenseRepository;
 import com.finsight.backend.repository.UserRepository;
 import com.finsight.backend.dto.ExpenseSummaryResponse;
+import com.finsight.backend.dto.SuccessResponse;
 import com.finsight.backend.dto.CategoryExpenseResponse;
 import com.finsight.backend.dto.MonthlyExpenseResponse;
 import com.finsight.backend.dto.ExpenseResponse;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class ExpenseService {
@@ -36,7 +38,7 @@ public class ExpenseService {
         this.userRepository = userRepository;
     }
 
-    public String addExpense(ExpenseRequest request,
+    public SuccessResponse addExpense(ExpenseRequest request,
                              Authentication authentication) {
 
         String email = authentication.getName();
@@ -57,7 +59,11 @@ public class ExpenseService {
 
         expenseRepository.save(expense);
 
-        return "Expense added successfully";
+        return new SuccessResponse(
+        true,
+        "Expense added successfully",
+        LocalDateTime.now()
+        );
     }
      
     public List<ExpenseResponse> getMyExpenses(
@@ -100,7 +106,7 @@ public class ExpenseService {
     return expensePage.map(this::mapToResponse);
     }
    
-    public String updateExpense(Long expenseId,
+    public SuccessResponse updateExpense(Long expenseId,
                             ExpenseRequest request,
                             Authentication authentication) {
 
@@ -123,9 +129,13 @@ public class ExpenseService {
 
     expenseRepository.save(expense);
 
-    return "Expense updated successfully";
+    return new SuccessResponse(
+        true,
+        "Expense updated successfully",
+        LocalDateTime.now()
+    );
     }
-    public String deleteExpense(Long expenseId,
+    public SuccessResponse deleteExpense(Long expenseId,
                             Authentication authentication) {
 
     String email = authentication.getName();
@@ -141,7 +151,11 @@ public class ExpenseService {
 
     expenseRepository.delete(expense);
 
-    return "Expense deleted successfully";
+    return new SuccessResponse(
+        true,
+        "Expense deleted successfully",
+        LocalDateTime.now()
+    );
     }
     public ExpenseSummaryResponse getExpenseSummary(
         Authentication authentication) {
