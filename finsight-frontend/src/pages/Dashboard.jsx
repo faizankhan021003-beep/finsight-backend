@@ -1,9 +1,33 @@
 import Navbar from "../components/Navbar";
+import { useEffect, useState } from "react";
+import { getExpenseSummary } from "../services/api";
 
 function Dashboard() {
-  const token = localStorage.getItem("token");
   const email = localStorage.getItem("email");
-
+  const [summary, setSummary] = useState({
+  totalExpense: 0,
+  totalCategories: 0,
+  monthlyExpense: 0,
+  });
+  useEffect(() => {
+  fetchSummary();
+  }, []);
+  const [loading, setLoading] = useState(true);
+  const fetchSummary = async () => {
+  try {
+    const response = await getExpenseSummary();
+    console.log(response.data);
+    setSummary(response.data);
+  } catch (error) {
+    alert("Failed to load dashboard data.");
+    console.log(error);
+  } finally {
+    setLoading(false);
+  }
+  };
+  if (loading) {
+  return <h2 style={{ padding: "30px" }}>Loading Dashboard...</h2>;
+  }
   return (
   <>
     <Navbar />
@@ -29,7 +53,7 @@ function Dashboard() {
     }}
   >
     <h3>Total Expenses</h3>
-    <h2>₹0</h2>
+    <h2>₹{summary.totalExpenses}</h2>
   </div>
 
   <div
@@ -42,8 +66,8 @@ function Dashboard() {
       textAlign: "center",
     }}
   >
-    <h3>Categories</h3>
-    <h2>0</h2>
+    <h3>Total Transactions</h3>
+    <h2>{summary.totalTransactions}</h2>
   </div>
 
   <div
