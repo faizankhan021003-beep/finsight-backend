@@ -16,6 +16,7 @@ function Login() {
     });
 
     localStorage.setItem("token", response.data);
+    localStorage.setItem("email", email);
     alert("Login Successful!");
     navigate("/dashboard");
 
