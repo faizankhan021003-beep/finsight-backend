@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../styles/Login.css";
 import api from "../services/api";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -41,6 +42,9 @@ function Login() {
       <button onClick={handleLogin}>
         Login
       </button>
+       <p>
+       Don't have an account? <Link to="/register">Register</Link>
+       </p>
     </div>
   );
 }

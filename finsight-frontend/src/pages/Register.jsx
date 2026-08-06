@@ -1,11 +1,14 @@
 import { useState } from "react";
 import "../styles/Login.css";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
   try {
@@ -16,6 +19,7 @@ function Register() {
     });
 
     alert("Registration Successful!");
+    navigate("/login");
 
   } catch (error) {
     alert(error.response?.data?.message || "Registration Failed");
@@ -50,6 +54,9 @@ function Register() {
       <button onClick={handleRegister}>
          Register
       </button>
+       <p>
+      Already have an account? <Link to="/login">Login</Link>
+       </p>
     </div>
   );
 }
