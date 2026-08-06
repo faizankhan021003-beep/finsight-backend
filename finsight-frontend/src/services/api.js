@@ -12,4 +12,11 @@ export const getExpenseSummary = () => {
   });
 };
 
+export const addExpense = (expense) => {
+  return api.post("/expenses", expense, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
 export default api;
