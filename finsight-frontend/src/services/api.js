@@ -19,4 +19,13 @@ export const addExpense = (expense) => {
     },
   });
 };
+
+export const getAllExpenses = () => {
+  return api.get("/expenses", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export default api;
