@@ -1,9 +1,11 @@
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { getExpenseSummary } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const email = localStorage.getItem("email");
+  const navigate = useNavigate();
   const [summary, setSummary] = useState({
   totalExpense: 0,
   totalCategories: 0,
@@ -35,6 +37,21 @@ function Dashboard() {
     <div style={{ padding: "30px" }}>
       <h1>FinSight Dashboard</h1>
       <p>Welcome back, <strong>{email}</strong>! 🎉</p>
+      <button
+  onClick={() => navigate("/add-expense")}
+  style={{
+    background: "#2563EB",
+    color: "white",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginTop: "15px",
+    marginBottom: "20px",
+  }}
+  >
+   + Add Expense
+   </button>
      <div
   style={{
     display: "flex",
