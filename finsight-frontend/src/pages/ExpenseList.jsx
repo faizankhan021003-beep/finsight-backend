@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllExpenses } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function ExpenseList() {
     const [expenses, setExpenses] = useState([]);
@@ -7,7 +8,7 @@ function ExpenseList() {
     useEffect(() => {
     fetchExpenses();
     }, []);
-
+    const navigate = useNavigate();
     const fetchExpenses = async () => {
     try {
     const response = await getAllExpenses();
@@ -29,6 +30,7 @@ function ExpenseList() {
             <th>Category</th>
             <th>Date</th>
             <th>Description</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -40,6 +42,9 @@ function ExpenseList() {
         <td>{expense.category}</td>
         <td>{expense.date}</td>
         <td>{expense.description}</td>
+        <button onClick={() => navigate(`/edit-expense/${expense.id}`)}>
+             Edit
+        </button>
         </tr>
         ))}
         </tbody>

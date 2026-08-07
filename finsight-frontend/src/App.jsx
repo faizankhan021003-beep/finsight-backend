@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import ExpenseList from "./pages/ExpenseList";
+import EditExpense from "./pages/EditExpense";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/add-expense" element={<AddExpense />} />
       <Route path="/expenses" element={<ExpenseList />} />
+      <Route path="/edit-expense/:id" element={<EditExpense />} />
     </Routes>
   );
 }

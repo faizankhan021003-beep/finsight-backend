@@ -28,4 +28,20 @@ export const getAllExpenses = () => {
   });
 };
 
+export const getExpenseById = (id) => {
+  return api.get(`/expenses/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const updateExpense = (id, expense) => {
+  return api.put(`/expenses/${id}`, expense, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export default api;
