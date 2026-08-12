@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import AddExpense from "./pages/AddExpense";
 import ExpenseList from "./pages/ExpenseList";
 import EditExpense from "./pages/EditExpense";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -12,10 +13,17 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/add-expense" element={<AddExpense />} />
-      <Route path="/expenses" element={<ExpenseList />} />
-      <Route path="/edit-expense/:id" element={<EditExpense />} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard />
+       </ProtectedRoute>}/>
+      <Route path="/add-expense" element={<ProtectedRoute>
+      <AddExpense />
+    </ProtectedRoute>}/>
+      <Route path="/expenses" element={<ProtectedRoute>
+      <ExpenseList />
+    </ProtectedRoute>}/>
+      <Route path="/edit-expense/:id" element={<ProtectedRoute>
+      <EditExpense />
+    </ProtectedRoute>}/>
     </Routes>
   );
 }
