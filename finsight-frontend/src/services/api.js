@@ -12,6 +12,22 @@ export const getExpenseSummary = () => {
   });
 };
 
+export const getCategorySummary = () => {
+  return api.get("/expenses/category-summary", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
+export const getMonthlySummary = () => {
+  return api.get("/expenses/monthly-summary", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export const addExpense = (expense) => {
   return api.post("/expenses", expense, {
     headers: {

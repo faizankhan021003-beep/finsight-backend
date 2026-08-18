@@ -1,0 +1,80 @@
+.dashboard-container {
+  padding: 30px;
+}
+
+.charts-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.chart-card {
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+}
+
+.monthly-chart-card {
+  width: 100%;
+  max-width: 700px;
+  height: 400px;
+}
+
+.summary-cards {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.summary-card {
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+.total-expenses {
+  background: #334155;
+}
+
+.total-transactions {
+  background: #16a34a;
+}
+
+.this-month {
+  background: #ea580c;
+}
+
+.add-expense-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.loading-message {
+  padding: 30px;
+}
+
+.add-expense-btn:hover {
+  background: #1d4ed8;
+}
+
+.add-expense-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  transition: background 0.2s ease;
+}
