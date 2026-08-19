@@ -105,7 +105,24 @@ public class ExpenseService {
 
     return expensePage.map(this::mapToResponse);
     }
-   
+     
+    public ExpenseResponse getExpenseById(
+        Long expenseId,
+        Authentication authentication) {
+
+    String email = authentication.getName();
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("User not found"));
+
+    Expense expense = expenseRepository
+            .findByIdAndUser(expenseId, user)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException("Expense not found"));
+
+    return mapToResponse(expense);
+    }
     public SuccessResponse updateExpense(Long expenseId,
                             ExpenseRequest request,
                             Authentication authentication) {

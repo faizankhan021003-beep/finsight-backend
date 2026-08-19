@@ -128,6 +128,13 @@ public class ExpenseController {
     @ApiResponse(responseCode = "404", description = "Expense not found"),
     @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
+    @GetMapping("/{id}")
+        public ExpenseResponse getExpenseById(
+        @PathVariable Long id,
+        Authentication authentication) {
+
+    return expenseService.getExpenseById(id, authentication);
+    }
     // Update an existing expense
     @PutMapping("/{id}")
     public SuccessResponse updateExpense(@PathVariable Long id,
