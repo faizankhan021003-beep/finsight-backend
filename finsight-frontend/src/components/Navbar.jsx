@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -10,28 +11,12 @@ function Navbar() {
   };
 
   return (
-    <nav
-      style={{
-        backgroundColor: "#2563eb",
-        color: "white",
-        padding: "15px 30px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <h2>FinSight</h2>
+    <nav className="navbar">
+      <h2 className="navbar-title">FinSight</h2>
 
       <button
+        className="logout-btn"
         onClick={handleLogout}
-        style={{
-          backgroundColor: "white",
-          color: "#2563eb",
-          border: "none",
-          padding: "8px 16px",
-          cursor: "pointer",
-          borderRadius: "5px",
-        }}
       >
         Logout
       </button>

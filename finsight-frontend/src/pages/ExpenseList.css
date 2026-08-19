@@ -1,0 +1,60 @@
+.expense-list-container {
+  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.expense-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.edit-expense-btn {
+  padding: 6px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #2563eb;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .expense-list-container {
+    padding: 20px;
+  }
+
+  .expense-list-container h2 {
+    font-size: 24px;
+  }
+
+  .expense-table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .expense-table {
+    min-width: 650px;
+  }
+}
+
+.delete-expense-btn {
+  padding: 6px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #dc2626;
+  color: white;
+  margin-left: 8px;
+}

@@ -1,5 +1,6 @@
 .dashboard-container {
   padding: 30px;
+  padding-top: 40px;
 }
 
 .charts-container {
@@ -77,4 +78,73 @@
   margin-top: 15px;
   margin-bottom: 20px;
   transition: background 0.2s ease;
+}
+
+.dashboard-container h1 {
+  margin-bottom: 15px;
+}
+
+.dashboard-container p {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 20px;
+  }
+
+  .dashboard-container h1 {
+    font-size: 28px;
+  }
+
+  .dashboard-container p {
+    font-size: 14px;
+  }
+
+  .add-expense-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .summary-cards {
+    gap: 15px;
+  }
+
+  .summary-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-card,
+  .monthly-chart-card {
+    height: 350px;
+  }
+}
+
+.view-expenses-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  transition: background 0.2s ease;
+}
+
+.view-expenses-btn:hover {
+  background: #15803d;
+}
+
+@media (max-width: 768px) {
+  .view-expenses-btn {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0;
+  }
 }

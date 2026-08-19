@@ -1,6 +1,9 @@
 .login-container {
   width: 300px;
+  max-width: 100%;
   margin: 100px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
   text-align: center;
 }
 
@@ -22,8 +25,18 @@
   color: white;
   border: none;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .login-container button:hover {
   background-color: #1d4ed8;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
 }

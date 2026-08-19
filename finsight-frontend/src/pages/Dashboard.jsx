@@ -91,6 +91,13 @@ function Dashboard() {
          + Add Expense
         </button>
 
+        <button
+         className="view-expenses-btn"
+         onClick={() => navigate("/expenses")}
+         >
+         View Expenses
+        </button>
+
         {/* Summary Cards */}
         <div className="summary-cards">
 

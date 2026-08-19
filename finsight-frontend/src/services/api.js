@@ -60,4 +60,12 @@ export const updateExpense = (id, expense) => {
   });
 };
 
+export const deleteExpense = (id) => {
+  return api.delete(`/expenses/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export default api;

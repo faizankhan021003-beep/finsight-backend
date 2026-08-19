@@ -1,0 +1,35 @@
+.navbar {
+  background-color: #2563eb;
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-title {
+  margin: 0;
+}
+
+.logout-btn {
+  background-color: white;
+  color: #2563eb;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .navbar-title {
+    font-size: 20px;
+  }
+
+  .logout-btn {
+    padding: 7px 12px;
+  }
+}

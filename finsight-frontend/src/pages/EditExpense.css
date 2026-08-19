@@ -54,3 +54,33 @@
 .update-btn:hover {
   background-color: #1d4ed8;
 }
+
+@media (max-width: 768px) {
+  .edit-expense-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+
+  .edit-expense-container form {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .edit-expense-container input,
+  .edit-expense-container select,
+  .edit-expense-container textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .edit-expense-container button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}

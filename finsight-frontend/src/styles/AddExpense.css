@@ -38,3 +38,33 @@
 .add-expense-container button:hover {
   background: #1E40AF;
 }
+
+@media (max-width: 768px) {
+  .add-expense-container {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    overflow-x: hidden;
+  }
+
+  .add-expense-container form {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .add-expense-container input,
+  .add-expense-container select,
+  .add-expense-container textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .add-expense-container button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
