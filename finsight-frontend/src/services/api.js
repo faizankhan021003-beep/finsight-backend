@@ -28,6 +28,14 @@ export const getMonthlySummary = () => {
   });
 };
 
+export const getExpenseStatistics = () => {
+  return api.get("/expenses/statistics", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
+
 export const addExpense = (expense) => {
   return api.post("/expenses", expense, {
     headers: {

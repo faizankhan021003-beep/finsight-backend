@@ -14,7 +14,6 @@ function ExpenseList() {
   const fetchExpenses = async () => {
     try {
       const response = await getAllExpenses();
-      console.log(response.data);
       setExpenses(response.data);
     } catch (error) {
       console.log(error);

@@ -22,7 +22,6 @@ function EditExpense() {
     try {
       const response = await getExpenseById(id);
       setExpense(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }

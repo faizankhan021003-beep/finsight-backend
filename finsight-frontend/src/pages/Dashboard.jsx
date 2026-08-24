@@ -4,6 +4,7 @@ import {
   getExpenseSummary,
   getCategorySummary,
   getMonthlySummary,
+  getExpenseStatistics,
 } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
@@ -34,6 +35,12 @@ function Dashboard() {
 
   const [categoryData, setCategoryData] = useState([]);
   const [monthlyData, setMonthlyData] = useState([]);
+  const [statistics, setStatistics] = useState({
+  highestExpense: 0,
+  lowestExpense: 0,
+  averageExpense: 0,
+  totalTransactions: 0,
+  });
   const [loading, setLoading] = useState(true);
 
   const COLORS = ["#2563EB", "#16A34A", "#EA580C", "#9333EA"];
@@ -46,19 +53,17 @@ function Dashboard() {
     try {
       const response = await getExpenseSummary();
 
-      console.log(response.data);
-
       const categoryResponse = await getCategorySummary();
-
-      console.log(categoryResponse.data);
 
       setCategoryData(categoryResponse.data);
 
       const monthlyResponse = await getMonthlySummary();
 
-      console.log(monthlyResponse.data);
-
       setMonthlyData(monthlyResponse.data);
+
+      const statisticsResponse = await getExpenseStatistics();
+
+      setStatistics(statisticsResponse.data);
 
       setSummary(response.data);
     } catch (error) {
@@ -68,7 +73,12 @@ function Dashboard() {
       setLoading(false);
     }
   };
+  
+   const currentMonth = new Date().toISOString().slice(0, 7);
 
+   const currentMonthExpense = monthlyData.find(
+  (item) => item.month === currentMonth
+   )?.totalAmount || 0;
   if (loading) {
   return <h2 className="loading-message">Loading Dashboard...</h2>;
 }
@@ -116,7 +126,27 @@ function Dashboard() {
           {/* This Month */}
           <div className="summary-card this-month">
             <h3>This Month</h3>
-            <h2>₹0</h2>
+             <h2>₹{currentMonthExpense}</h2>
+          </div>
+
+        </div>
+         
+                {/* Expense Statistics */}
+        <div className="statistics-cards">
+
+          <div className="statistics-card highest-expense">
+            <h3>Highest Expense</h3>
+            <h2>₹{statistics.highestExpense}</h2>
+          </div>
+
+          <div className="statistics-card lowest-expense">
+            <h3>Lowest Expense</h3>
+            <h2>₹{statistics.lowestExpense}</h2>
+          </div>
+
+          <div className="statistics-card average-expense">
+            <h3>Average Expense</h3>
+            <h2>₹{statistics.averageExpense.toFixed(2)}</h2>
           </div>
 
         </div>
