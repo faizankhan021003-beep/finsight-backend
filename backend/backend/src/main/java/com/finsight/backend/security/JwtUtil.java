@@ -6,18 +6,36 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private static final String SECRET =
-            "mysecretkeymysecretkeymysecretkey123456";
-
     private static final long EXPIRATION_TIME = 86400000; // 24 hours
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    private final Key key;
+
+    public JwtUtil() {
+        String secret = System.getenv("JWT_SECRET");
+
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException(
+                    "JWT_SECRET environment variable is not set"
+            );
+        }
+
+        if (secret.getBytes(StandardCharsets.UTF_8).length < 32) {
+            throw new IllegalStateException(
+                    "JWT_SECRET must be at least 32 bytes long"
+            );
+        }
+
+        key = Keys.hmacShaKeyFor(
+                secret.getBytes(StandardCharsets.UTF_8)
+        );
+    }
 
     // Generate JWT Token
     public String generateToken(String email) {
@@ -25,7 +43,9 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + EXPIRATION_TIME)
+                )
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
